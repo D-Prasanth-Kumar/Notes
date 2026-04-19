@@ -25,7 +25,7 @@ public class JDBCOperations {
         // #2
         String url = "jdbc:mysql://localhost:3306/jdbcdemo";
         String username = "root";
-        String password = "Prax@1234";
+        String password = "root";
 
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("Connection created...");
@@ -34,6 +34,9 @@ public class JDBCOperations {
         Statement statement = connection.createStatement();
 
         // #4
+        // for DML - executeUpdate
+        // for DQl - executeQuery
+        // for
         statement.executeUpdate("insert into demo values(2, 'Ram')");
     }
 }
