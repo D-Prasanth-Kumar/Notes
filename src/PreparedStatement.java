@@ -29,5 +29,12 @@ public class PreparedStatement {
 
         // there are also addBatch() and executeBatch() methods which helps in adding in batches and
         // execute as batches.
+
+        // NOTE ----
+        // When we are working on storedProcedures we use Callable Statement.
+        // Ex: CallableStatement callableStatement = connection.prepareCall("{CALL insertProduct(4, 'Mobile', 15000)}");
+        //     callableStatement.execute();
+        // -- check D5 Stored Procedures class --
+        //
     }
 }
