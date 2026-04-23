@@ -1,0 +1,15 @@
+- Inorder to getting started with hibernate we need to first include the 'Hibernate Core' dependency in the pom.xml,
+as we use Maven which is used for handling dependencies and is a Project Management Build Automation tool.
+
+- And also we need a 'hibernate.cfg.xml' - configuration xml file, which can be get from hibernate tool (JBoss).
+
+- STEPS (in hibernate connection) :
+    (to talk with database we need Session and this Session comes from Session Factory. (Session Factory gives Session)
+    Session will interact with Database. it performs the Database Operations.)
+    1. Create a Configuration Object and configure.
+               Configuration cfg = new Configuration();
+               cfg.configure(hibernate.cfg.xml);
+    2. Get Session Factory.
+               SessionFactory sessionFactory = cfg.buildSessionFactory();
+    3.
+               Session session = sessionFactory.openSession();
