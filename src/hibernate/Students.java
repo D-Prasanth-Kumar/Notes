@@ -21,6 +21,14 @@ public class Students {
 
     }
 
+    // This is an intermediate Constructor, which is useful when if we use autoincrement with id,
+    // then there is no need of passing id while creating the object.
+    public Students(String name, int marks) {
+        super();
+        this.name = name;
+        this.marks = marks;
+    }
+
     public int getStudentId() {
         return studentId;
     }

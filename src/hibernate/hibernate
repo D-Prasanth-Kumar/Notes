@@ -1,3 +1,33 @@
+(First, working with hibernate project we create a Maven project and we add Hibernate Core dependency.
+
+ and then we go to resources folder and create hibernate.cfg.xml which is a configuration file for hibernate and we add all the properties in this file.
+
+ Now we come to the Main steps we start the configuration file,
+
+ for that we need to create a configuration object, and with this config obj we configure our xml file.
+
+ after that, we need to build our Session Factory, and from Session Factory we get our Session. and we need to open Session.
+
+ Now we need to begin the transaction.
+
+ To save the Data, i.e. to insert, we use 'persist' method
+
+ and we need to end the transaction.
+
+ -- As this is a ORM framework, we won't write any queries. For that we create a java class which resembles our table in database.
+
+ the java class which maps our database table is 'Entity' class.
+
+ Entity -> fields are column names, and class name is table name. and each class must have a primary key in it.
+
+ we annotate class which maps our table with annotation -> @Entity
+
+ we annotate primary key with annotation -> @Id
+
+
+
+ )
+
 - Inorder to getting started with hibernate we need to first include the 'Hibernate Core' dependency in the pom.xml,
 as we use Maven which is used for handling dependencies and is a Project Management Build Automation tool.
 
