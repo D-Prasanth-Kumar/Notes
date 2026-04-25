@@ -43,3 +43,31 @@ as we use Maven which is used for handling dependencies and is a Project Managem
                SessionFactory sessionFactory = cfg.buildSessionFactory();
     3.
                Session session = sessionFactory.openSession();
+
+(
+  Note ----
+  In hibernate (& also in JDBC), we generally won't prefer to do DDL operations. we don't do DDL through code.
+  but we can do the DDL in hibernate by adding the property in hibernate.cfg.xml :-
+  1. <property name="hibernate.hbm2ddl.auto">create</property> ->  This drop the existing table and creates the table again. Which is not good.
+  2. <property name="hibernate.hbm2ddl.auto">create</property> -> This will update the table if exists. if not exists, creates and updates. this is good to use.
+  ----
+)
+
+(
+  Note ----
+  There is another concept in Hibernate called 'Dirty Checking'.
+  Even though you merge or do not merge anything into the database,
+  once you begin the transaction and once you commit the transaction, all the intermediate operations on the java object will get merged into the database.
+  ----
+)
+
+(
+  Hibernate States -
+
+  1. Transient - (java obj)Object has no relation with the session
+  2. Persistent - Objects that are linked to session (performs dirty checking)
+  3. Detached - Close the session to move objects to detached state.
+
+  Hibernate does not perform Dirty Checking in Detached and Transient states.
+)
+
