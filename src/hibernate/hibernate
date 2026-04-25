@@ -24,8 +24,6 @@
 
  we annotate primary key with annotation -> @Id
 
-
-
  )
 
 - Inorder to getting started with hibernate we need to first include the 'Hibernate Core' dependency in the pom.xml,
@@ -69,5 +67,11 @@ as we use Maven which is used for handling dependencies and is a Project Managem
   3. Detached - Close the session to move objects to detached state.
 
   Hibernate does not perform Dirty Checking in Detached and Transient states.
+)
+
+(
+  In Hibernate we can only get data of a single row at a time.
+  But to get multiple rows at a time there is a concept called "HQL" -> Hibernate Query Language
+  -- Ex: Select * from students -is written as -> select From Student --
 )
 
