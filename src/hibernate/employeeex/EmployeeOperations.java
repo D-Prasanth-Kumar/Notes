@@ -16,6 +16,8 @@ public class EmployeeOperations {
         // Delete - remove
         // Update - merge
 
+        // At last we close session. -----> session.close();
+
 
         // -- the limitation is, there will be no any findAll in hibernate
         // we can't get select * from employees.
@@ -23,19 +25,26 @@ public class EmployeeOperations {
         // --
     }
 
+    private static void insert(Session session) {
+        session.beginTransaction();
+        Employee emp = new Employee(1, "Prasanth", 10000);
+        session.persis(emp);
+        session.getTransaction().commit();
+    }
+
     private static void update(Session session) {
         session.beginTransaction();
         Employee emp = session.find(Employee.class, 1);
         emp.setSalary(30000);
         session.merge(emp);
-        session.getTransaction.commit();
+        session.getTransaction().commit();
     }
 
     private static void delete(Session session) {
         session.beginTransaction();
         Employee emp = new Employee(2, "", 0); // we can also do -> Employee emp = session.find(Employee.class, 2);
         session.remove(emp);
-        session.getTransaction.commit();
+        session.getTransaction().commit();
     }
 
     // for select we don't need to begin and commit the transaction,
