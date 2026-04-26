@@ -19,7 +19,6 @@ public class HQLOperations {
         List<Product> products = query.list();
         System.out.println(products);
 
-
     }
 
     private static void delete(Session session) {
