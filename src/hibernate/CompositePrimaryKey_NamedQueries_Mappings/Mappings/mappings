@@ -1,0 +1,36 @@
+(Performing Joins concepts in Java are known as Mappings)
+
+Types of Mappings :-
+
+1. One to One
+            1 Citizen <----------------------has---------------------> 1 Passport
+    name age state country address                             passportId validFrom validTo
+
+2. One to Many
+            1 User has ------------> Many Orders
+
+3. Many to One
+            Many Orders belongs to -----------> Single User
+
+4. Many to Many
+            (Combination of, One to Many & Many to One)
+            1 Student purchases ----> Many Courses
+            1 Course purchased by -----> Many Students
+
+-------------------------------
+
+Cascading : Inorder to make changes in both the classes / tables we need to mention the operation
+            and then it takes care of modifying / handling both of them.
+
+-------------------------------
+
+UniDirectional Mapping (Relationship in one way) Ex: Citizen to Aadhar Relationship is there, but there is no Relationship from Aadhar to Citizen.
+
+BiDirectional Mapping (Citizen -> Aadhar && Aadhar -> Citizen)
+
+-------------------------------
+
+Fetch Types :
+            1. Eager
+            2. Lazy
+            (Fetch Type by default - Eager.     we use Lazy mostly)
