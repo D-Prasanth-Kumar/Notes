@@ -20,6 +20,8 @@ package web_applications;
 
 import java.io.PrintWriter;
 
+// we can also add main endpoint
+@WebServlet("/hello")       // if we use annotation, there is no need to use xml.
 public class MyServlet extends HttpServlet {
 
     @Override

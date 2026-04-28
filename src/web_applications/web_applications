@@ -19,9 +19,14 @@ Servlets :
                                 2. Http Servlets
                                     Specifically for Http
 
+(Server is a container of Servlets) As Servlets run on server and Servlets result is seen on browser.
+
+(client -- sends --> request -- to --> server -- request handled by -- > servlets -- goes to backend for operations
+--> response -- sent back to server by --> servlet -- reaches to -- > client)
+
 ------------------------------------------------------------------
 
-Java EE (Enterprise Edition) :
+Java EE (Enterprise Edition) : (for this we need to create 'Dynamic Web Project' / Maven with related dependencies)
 
 Webapp -> folder
     - META-INF
