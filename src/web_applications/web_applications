@@ -35,3 +35,18 @@ Webapp -> folder
                         - we add dependencies (JAR files)
              web.xml
                     Deployment Descriptor File(it says server, what to do.)
+
+--------------------------------------------------------------------
+
+Lifecycle of Servlets :
+        3 Stages -
+            1. Init
+                    - Servlet gets 'initialises' only when it is called. Ex: /hello
+
+            2. Service
+                    - This is execution stage.
+                    - i.e. execution happens in these methods - doGet, doPut, doPost, doDelete, doPatch
+
+            3. Destroy
+                    - When we shutdown the server, all servlets will get destroyed.
+
