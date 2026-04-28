@@ -1,4 +1,4 @@
-package html;
+package web_applications.html;
 
 import java.io.PrintWriter;
 
