@@ -1,0 +1,32 @@
+web application - accessible in website through browser.
+
+server is a place where our application runs and can be accessible to others. (it is like a computer)
+(
+ Physical Servers
+ Virtual Servers
+)
+
+WEB APPLICATIONS :
+
+Servlets :
+          it is a Java class
+          handles request and response
+          - Two Types of Servlets :
+                                1. Generic Servlets
+                                    Manages all types of protocols -
+                                            Ex: HTTP, FTP, SMTP . (here http is most commonly used, that's why we prefer Http Servlets)
+
+                                2. Http Servlets
+                                    Specifically for Http
+
+------------------------------------------------------------------
+
+Java EE (Enterprise Edition) :
+
+Webapp -> folder
+    - META-INF
+    - WEB-INF
+             lib folder
+                        - we add dependencies (JAR files)
+             web.xml
+                    Deployment Descriptor File(it says server, what to do.)
