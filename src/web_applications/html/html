@@ -1,1 +1,2 @@
 HTMl - Hypertext Mark up Language - (Markup Language means it involves tags. as we see in XML too. <> </>)
+- HTML is static, we cannot render dynamically.     So there is a concept called "JSP".
