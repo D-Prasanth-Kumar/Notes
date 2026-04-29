@@ -1,0 +1,29 @@
+JSP -> Java Server Pages. -> Java + HTML (.jsp)
+
+('Struts' is a framework which is used before 'Spring')
+
+JSPs -
+
+1. Scriptlet - <%  %>
+               Ex: <h1> </h1>
+                   <%
+                       String name = "Prasanth";
+                       out.println(name);
+                   %>
+
+             - Used to write Java code in this. (in between html)
+
+2. Expressions - <%= name %>  (<%=  %>)
+               - Used to print any variables in java. (no need to write any - out.println(name) to print variable)
+               - we can write expression inside scriptlet.
+
+3. Directive - <%@   %>
+             - for meta data.
+             - java class imports.
+
+
+-> Scopes - (availability of data)
+        1. Request Scope : This is limited to a particular HTTP Request and Response. (Scope is limited for single request)
+        2. Session Scope :  Is available across the session. (across your browser). (Scope is limited for single same browser)
+        3. Application Scope : we generally do this with Servlet Context (class) object.
+                               This is related to server. (data can be seen in any browsers)
