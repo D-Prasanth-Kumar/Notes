@@ -1,0 +1,60 @@
+Spring :-
+    modules -
+        Spring Core / Context
+        Spring JDBC
+        Spring ORM
+        Spring JPA (same as Hibernate)
+        Spring MVC (Model View Controller)
+        Spring REST
+        Spring AOP -> Aspect Oriented Programming
+        Spring Security
+        Spring Actuator -
+                    /health
+                    /metrics
+                    /beans
+                    /env
+                    ...
+        Spring AI
+
+-> The Difference b/w Spring and Spring Boot:
+    - In Spring we do configurations with xml; whereas in Spring Boot, we do configurations using annotations.
+    - even Spring too supports annotations. and Spring Boot it completely works only with annotations.
+
+// NOTE ---------
+    ( Singleton Design Pattern:
+            It says, 1 class -> 1 object (multiple objects should not be created for a single class,
+                                          instead use a same object and share the same object to multiple requests)
+            - for that we have to mention the constructor in the class as 'private' and we have to declare the object in the class
+                and we create a public getter method and return that declared object following few rules like,
+                putting a null check, where only if the check is null we create the object otherwise we return the existing object.
+    The two rules -
+        -> make the constructor 'private'
+        -> write a static method which returns the instance.
+        -> whenever we need object , we just call that static method.
+    )
+    // ----------
+
+    -- "Spring entirely works on 'Singleton Design Pattern'" --
+           -By default all classes in Spring are Singleton.
+
+- Beans = Objects (in spring)
+
+- Spring handles beans. i.e. objects are not created by us, instead spring does.
+
+-> IOC - Inversion Of Control (as the control of handling bean(object) is inversed, it is called 'Inversion of Control')
+    - Spring uses a container to manage this (IoC container). It stores Beans.
+
+    -> 2 Types of containers :
+        1. BeanFactory
+        2. ApplicationContext (it is advanced version of BeanFactory. and we generally use ApplicationContext)
+            - ApplicationContext is an Interface.
+            - As it is an interface there are two classes which provides it's implementation.
+                -> 1. ClassPathXMLApplicationContext - it is used when we are configuring everything using XML.
+                   2. AnnotationConfigApplicationContext - it is used when we are configuring using annotations.
+
+1. Spring Core / Context :-
+
+
+
+
+
