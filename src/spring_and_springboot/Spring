@@ -1,3 +1,9 @@
+(Spring is a non-invasive framework which is used to create light weight and loosely coupled applications)
+(non-invasive means, the framework will never forces the developer to implement/extends other API.
+    Ex: if we want to create a servlet, we need to extend the class with HttpServlet. then only we can create Servlet
+        if we extend an API(Interface) we get all predefined methods even if we don't use them only, unnecessarily
+        which makes heavy weight)
+
 Spring :-
     modules -
         Spring Core / Context
@@ -54,7 +60,71 @@ Spring :-
 
 1. Spring Core / Context :-
 
+    - we have to add the Spring Context dependency in pom.xml.
+    - we do configurations using XML.
+    - we create an .xml file(beans.xml) in src/main/resources (beans.xml should include a meta data which can be get from Spring XSD for beans.xml)
+        inside beans.xml, inside <beans> </beans> tag, we write <bean> <bean> i.e.
+            - <bean class="com.model.User" id="user">
+                // -- by default single bean will be created in Spring. --
+                // we can set values using 'property tag' or 'constructor-arg tag'
+                // property tag -> uses setters to set the value
+                // constructor-arg tag -> uses constructor to set the value
+                // -- below ex belongs to Ex1 --
+                <property name="userId" value="1"></property>
+                <property name="name" value="Prasanth"></property>
 
+                // we can write constructor-arg here too.
+
+                <property name="skills">
+                    <list>
+                        <value>JAVA</value>
+                        <value>SQL</value>
+                        <value>JDBC</value>
+                    </list>
+
+                </property>
+
+                // if we want to use map, we use entry set
+                <property name="hobbies">
+                    <map>
+                        <entry key="Hobby1" value="Cricket"></entry>
+                        <entry key="Hobby2" value="Drawing"></entry>
+                        <entry key="Hobby3" value="Tennis"></entry>
+                    </map>
+                </property>
+
+                // -------
+                // for has-a relationship the property value will be 'ref' because it will be a class
+                // has-a relation means, one class having field as another class object.
+                <property name="address" ref="addr">>/property>
+                // as the address itself is a class, we will create a bean as we did,
+                // we pass that beans 'id' as 'ref'
+                // this is a limitation, so we do 'Autowire'
+                // -------
+
+              </bean>
+
+              // -- example of address bean --
+              <bean>
+                <property> //// </property>
+              </bean>
+              // ----------------
+
+              // we can write multiple beans for same class with different 'id'
+              // but this is wrong, and violates singleton design pattern, as it creates multiple beans
+              <bean class="com.model.User" id="user2>
+                // setting values using 'constructor-arg'
+                <constructor-arg value="3"></constructor-arg>
+                <constructor-arg value="XYZ"></constructor-arg>
+              </bean>
+
+--> Dependency Injection : Spring does it by 'Autowire'
+                           Autowire -> automatically injecting another class obj in a class
+
+            - Spring does Autowire in 3 ways :
+                    1. byType
+                    2. byName
+                    3. constructor
 
 
 
