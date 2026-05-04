@@ -124,7 +124,35 @@ Spring :-
             - Spring does Autowire in 3 ways :
                     1. byType
                     2. byName
-                    3. constructor
+                    3. constructor - when want to do autowire using constructor, we don't mention property tag.
 
 
+-> Spring Context without XML :
+    - as we mention the attribute "autowire" for DI, we replace it with '@Autowired' annotation.
+    - when we use/see 'has-a' relationship, we use @Autowired.
+    - we can put @Autowired - on 'setter', or on 'field', or on 'constructor'
+    - -- we generally follow 'constructor' injection.
+    - NOTE :
+            In order to Spring understand that we using annotations,
+                    we have to mention <context:annotation-config></context:annotation-config> tag.
+                    with this tag, spring will know we are using annotations and looks for annotations.
+
+    - We can set values dynamically by mentioning the values in 'application.properties' file and
+        instead of hardcoding in the XML, we can pass as placeholders- "${id}" where 'id' is mentioned in the application.properties file.
+        initially the placeholders will won't work, we have to use <context:property-placeholder location="classpath:application.properties"> in XML.
+        still we are using beans tag. we can remove this too with @Component annotation.
+    - we can use values dynamically using @Value() annotation - @Value("${id}") on field.
+
+    - @Component replaces bean tag. -creates a bean.
+    - @ComponentScan - to scan all Components
+        - we can also configure it using XML too where it asks 'base package' tp look into for scanning components.
+
+    - when wee configuring using annotations, we create a configuration class to enable all these annotations (say Config)
+        - we mention @Configuration annotation on the Config class, this will enable annotation based configuration.
+        - below it we mention the @ComponentScan(basePackages = "com")
+        - and to enable placeholders we mention, @PropertySource("classpath:application.properties")    (for dynamically setting values)
+
+    - Now, as we replaced all XML configurations with annotations, we can remove 'beans.xml' file.
+        - As we are using annotations we have to change the container to - AnnotationConfigApplicationContext(Config.class);
+            - as we enable the config in Config class , as we did in beans.xml for XML config so we mention Config.class in the container.
 
