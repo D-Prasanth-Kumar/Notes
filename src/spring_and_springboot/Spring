@@ -156,3 +156,54 @@ Spring :-
         - As we are using annotations we have to change the container to - AnnotationConfigApplicationContext(Config.class);
             - as we enable the config in Config class , as we did in beans.xml for XML config so we mention Config.class in the container.
 
+// Note ----------
+    1. Generally we write a common interface, and there will be multiple child classes for that interface.
+        So there will be multiple beans for that same interface
+        and when we want to inject them, we do inject those classes ; instead we mention parent interface
+        So , we want to inject what class we need, like mentioning explicitly, there is an annotation called '@Qualifier'
+        '@Qualifier' tells you exact qualifying bean, when there are multiple qualifying beans.
+            Ex: we mention this annotation below @Autowired.
+                @Autowired
+                @Qualifier(value = 'jio')
+                Sim sim; // it is interface
+
+    // We generally inject using Parent interface only //
+
+    2. @Primary
+
+    Both @Qualifier and @Primary both looks similar, as they both check, when there are multiple qualifying beans it tells the exact qualifying bean.
+        But, @Primary is marked at class level. (above class signature) (it applies to entire project level)
+
+        When we want to get use a bean explicitly we use @Qualifier(it applies on demand) and it can Override even any class is marked as @Primary.
+//
+
+// LifeCycles --------------------
+    1. Thread LifeCycle:
+        - new
+        - runnable
+        - running
+        - blocked
+        - terminated
+
+    2. Servlet LifeCycle:
+        - init
+        - service
+        - destroy
+
+    3. Bean LifeCycle:
+        - Container started
+        - Bean initialized
+        - Dependencies injected (Autowiring happens)
+        - init (@PostConstruct) - automatically calls init method without even calling it.
+        - normal methods
+        - destroy (@PreDestroy - Just before destroying the bean, any method that is marked with @PreDestroy will be called.)
+//
+
+// Scopes ----------
+    - Bean scope is 'Singleton' in Spring -> only one object
+    - ProtoType -> new object everytime. (class level annotation)
+        - By default scope will be singleton, and we don't encourage ProtoType
+
+    -- some other scopes -
+            request, application, session (these are web application related scopes)
+//
