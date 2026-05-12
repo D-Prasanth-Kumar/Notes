@@ -207,3 +207,120 @@ Spring :-
     -- some other scopes -
             request, application, session (these are web application related scopes)
 //
+
+2. Spring JDBC :-
+    - Connection creation, statement creation ,.. boiler plate code is not required. this is handled by Spring JDBC.
+    - Resources are auto closed by Spring. we don't need to close the resources(connections...)
+    - Spring handles Checked Exception (SQL Exception).
+    - Spring uses a class - JDBCTemplate. using this we can do all operations (like insert, select, update, delete..) it offers all CRUD operations.
+    - we need to create bean for JDBCTemplate class.
+
+    - While starting, we need to add MySQL connector dependency and Spring JDBC dependency in the pom.xml file
+
+    -> with XML -
+        - inside beans.xml file,
+          <beans>
+            <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+                // when are taking a class object, instead of 'val' we need to use 'ref'
+                // the JdbcTemplate constructor needs a DataSource as parameter.
+                // as DataSource is an interface we need to pass the child class of it which is 'DriverManagerDataSource', as we can't create bean for interface.
+                // for that we need to first create the bean for 'DriverManagerDataSource'
+                <property name="dataSource" ref="dataSource"</property>>
+            </bean>
+
+            <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+                <property name="url" value="jdbc:mysql://localhost:3306/demo"></property>
+                <property name="username" value="root"></property>
+                <property name="password" value="your_password"></property>
+            </bean>
+          </beans>
+
+          // Application file for Spring JDBC :
+          public class Application {
+                public static void main(String[] args) {
+                     ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+
+                     JdbcTemplate template = ctx.getBean("template", JdbcTemplate.class);
+
+                     // for all DML operations we use, 'update' method.
+
+                     template.update("Insert into employees values(?, ?, ?)", 1, "Prasanth", 10000);
+
+                     // 'ResultSet' equivalent is -> 'RowMapper' , here. which is advanced version of ResultSet.
+
+                     // for select operation, we use 'queryForObject' method.
+
+                    // this is for getting single row.
+                     template.queryForObject("SELECT * FROM employees where emp_id=2", new RowMapper<Employee>() {      // for return type we need the entity class
+
+                            @Override
+                            public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+                                    return new Employee(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                            }
+                     });
+
+                     // for getting data from multiple rows we use 'query' method which returns List, and we need to print that List to get the entire data.
+                }
+          }
+
+    -> without XML -
+    - first we need 'Config' class. on Config class we need to mark it with @Configuration annotation
+
+    - Difference between @Component and @Bean.
+        - Both annotations are used to create bean but, when the class is created by us(we are owner of the class)
+            we use @Component annotation on the class to create Bean.
+        - If we are not the owner of the class (if we want to create the bean to class which is not written by us)
+            we need to create a method that returns that bean(class obj) and return with obj using 'new' and we need to annotate that method with @Bean.
+
+    - // Config.java class
+
+         @Configuration
+         public class Config {
+
+                @Bean
+                public JdbcTemplate jdbcTemplate() {
+                    DataSource dataSource = dataSource();
+                    return new JdbcTemplate(dataSource);
+                }
+
+                @Bean
+                public DataSource dataSource() {
+                    DriverManagerDataSource dataSource = new DriverManagerDataSourc();
+
+                    dataSource.setUrl("your_url");
+                    dataSource.setUsername("your_username");
+                    dataSource.setPassword("your_password");
+
+                    return dataSource;
+                }
+         }
+
+    // Application file for Spring JDBC with Annotations :
+
+              public class Application {
+                    public static void main(String[] args) {
+                         ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
+
+                         // 'jdbcTemplate' is the method name in the Config file. we can name with there with @Bean("template")
+                         JdbcTemplate template = ctx.getBean("jdbcTemplate", JdbcTemplate.class);
+
+                         // for all DML operations we use, 'update' method.
+
+                         template.update("Insert into employees values(?, ?, ?)", 1, "Prasanth", 10000);
+
+                         // 'ResultSet' equivalent is -> 'RowMapper' , here. which is advanced version of ResultSet.
+
+                         // for select operation, we use 'queryForObject' method.
+
+                        // this is for getting single row.
+                         template.queryForObject("SELECT * FROM employees where emp_id=2", new RowMapper<Employee>() {      // for return type we need the entity class
+
+                                @Override
+                                public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+                                        return new Employee(rs.getInt(1), rs.getString(2), rs.getInt(3));
+                                }
+                         });
+
+                         // for getting data from multiple rows we use 'query' method which returns List, and we need to print that List to get the entire data.
+                    }
+              }
