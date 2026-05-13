@@ -324,3 +324,191 @@ Spring :-
                          // for getting data from multiple rows we use 'query' method which returns List, and we need to print that List to get the entire data.
                     }
               }
+
+3. Spring ORM :-
+    In Spring ORM,
+        - Configuration Object
+             hibernate.cfg.xml -> is not required
+        - no need to transaction
+        - no need to close sessions. they will closed automatically.
+
+    - first we need to add Spring Context, MySQL Connector, Spring ORM and Hibernate-core dependencies inside pom.xml.
+
+    (
+        flow-
+        SessionFactory
+            LocalSessionFactoryBean
+
+        DataSource
+
+        TransactionManagement
+            HibernateTransactionManager
+
+        @Transactional
+            - @Transactional will automatically begins the transaction,
+                                  automatically commits the transaction and
+                                  rollsback when an exception occurs.
+    )
+
+    -> with XML -
+    beans.xml -
+    <beans>
+
+        // as we using annotations, we can enable annotations in xml using this,
+        <context:annotation-config></context:annotation-config>
+        // we can also do the 'ComponentScan' with this here,
+        <context:component-scan base-package="com"></context:component-scan>
+        // to use @Transactional explicitly, we need to enable with this,
+        <tx:annotation-driven/>
+
+        // we can't create bean for SessionFactory as it is an Interface. as LocalSessionFactoryBean is implementing it, we can bean for it.
+        <bean class="org.springframework.orm.jpa.hibernate.LocalSessionFactoryBean" id="sessionFact">
+            <property name="dataSource" ref="dataSource"></property>
+            // we have to tell which package we have all the entities.
+            <property name="packagesToScan" value="com"></property>
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                    <prop key="hibernate.show_sql">true</prop>
+                    <prop key="hibernate.hbm2ddl.auto">update</prop>
+                </props>
+            </property>
+        </bean>
+
+        <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+            <property name="url" value="jdbc:mysql://localhost:3306/demo"></property>
+            <property name="username" value="root"></property>
+            <property name="password" value="your_password"></property>
+        </bean>
+
+        <bean class="org.springframework.orm.jpa.hibernate.HibernateTransactionManager" id="transactionManager">
+            <property name="sessionFactory" ref="sessionFact"></property>
+        </bean>
+    </beans>
+
+    entity file -
+    com.model package -
+
+    @Entity
+    public class Student {
+
+        @Column(name="std_id")
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY)
+        private int studentId;
+
+        @Column(name="std_name")
+        private String studentName;
+
+        private int marks;
+
+        // constructors , getters, setters
+    }
+
+    // DAO file
+    com.dao package
+
+    @Component
+    @Transactional  // we can mark @Transactional either at class level or at method level. As when we do persist 'saveStudent' method we need beginTransaction and commitTransaction. But @Transactional handles it automatically.
+    public class StudentDAO {
+
+        @Autowired
+        SessionFactory sessionFactory;
+
+        public Student getStudent(int id) {
+            Session session = getSession();
+            Student student = session.find(Student.class, id);
+            return student;
+        }
+
+        public void saveStudent(Student student) {
+            Session session = getSession();
+            session.persist(student);
+        }
+
+        private Session getSession() {
+            Session session = sessionFactory.getCurrentSession();
+            return session;
+        }
+    }
+
+    // Application file
+    com package
+
+    public class Application {
+        public static void main(String[] args) {
+            ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+            StudentDAO studentDAO = ctx.getBean("studentDAO", StudentDAO.class);
+
+            studentDAO.saveStudent(new Student("Prasanth", 10));
+
+            Student student = studentDAO.getStudent(1);
+            System.out.println(student);
+        }
+    }
+
+    -> without XML -
+       - we need to create a 'Config' class
+       - Config.java
+
+            @Configuration
+            @ComponentScan(basePackages="com")
+            @EnableTransactionManagement
+            public class Config {
+
+                @Bean
+                public DataSource dataSource() {
+                    DriverManagerDataSource dataSource = new DriverManagerDataSourc();
+
+                    dataSource.setUrl("your_url");
+                    dataSource.setUsername("your_username");
+                    dataSource.setPassword("your_password");
+
+                    return dataSource;
+                }
+
+                @Bean
+                public LocalSessionFactoryBean sessionFactory() {
+                    LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+                    sessionFactory.setDataSource(dataSource());
+                    sessionFactory.setPackageToScan("com");
+                    sessionFactory.setHibernateProperties(hibernateProperties());
+
+                    return sessionFactory;
+                }
+
+                @Bean
+                public Properties hibernateProperties() {
+                    Properties props = new Properties();
+                    props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+                    props.put("hibernate.show_sql", "true");
+                    props.put("hibernate.hbm2ddl.auto", "update");
+
+                    return props;
+                }
+
+                @Bean
+                public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
+                    HibernateTransactionManager tm = new HibernateTransactionManager();
+                    tm.setSessionFactory(sessionFactory);
+
+                    return tm;
+                }
+            }
+
+       - Application.java
+            public class Application {
+                 public static void main(String[] args) {
+                      ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class);
+                      StudentDAO studentDAO = ctx.getBean("studentDAO", StudentDAO.class);
+
+                      studentDAO.saveStudent(new Student("Prasanth", 10));
+
+                      Student student = studentDAO.getStudent(1);
+                      System.out.println(student);
+                 }
+            }
+
+
+
+
