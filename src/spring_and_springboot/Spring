@@ -553,4 +553,60 @@ Spring :-
       2. Update web module version and Java in Project facets
       3. Update web.xml
       4. Update targeted runtimes)
+      - we add Spring Context, and Spring MVC dependencies in pom.xml.
+
+      - Configuration in web.xml (as mentioned, we do configuration for Dispatcher Servlet only)
+      <web-app>
+
+        <servlet>
+            <servlet-name>demo</servlet-name>
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        </servlet>
+
+        <servlet-mapping>
+            <servlet-name>demo</servlet-name>
+            <url-pattern>/hello/*</url-pattern>    // /demo/* -> this takes all requests which are under /demo
+        </servlet-mapping>
+
+      </web-app>
+
+      - For Spring MVC, as we wrote the configuration for Dispatcher Servlet. now we need to create a file,
+        demo-servlet.xml inside WEB-INF folder.
+      - the format to create this file is, name-servlet.xml
+      - This file is same as beans.xml, used to write bean definitions.
+      - as we do the component scan in beans.xml, here we do it in demo-servlet.xml.
+
+      - we write the servlets files(here controller files) inside com.controller package with @Controller annotation.
+      - @Controller by default returns 'Views'-html/jsp pages. so we need to combine @Controller with @ResponseBody.
+      - @Controller - returns views.
+      - @Controller + @ResponseBody - returns data.
+      - @RestController = @Controller + @ResponseBody
+
+      Ex:
+          @Controller
+          public class TestController {
+
+                @RequestMapping("/hi")
+                @ResponseBody
+                public String hi() {
+                    return "Hii..."
+                }
+          }
+
+      - if we want to return views, we need to create a bean for class - 'InternalResourceViewResolver' in demo-servlet.xml by configuring in it.
+      - InternalResourceViewResolver consists of prefix and suffix.
+            - prefix -> path where our file is existing.
+            - suffix -> we mention the extension of the file (.jsp)
+      - inside demo-servlet.xml -
+        <beans>
+            // along with annotation and component scan tags,
+
+            <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                <property name="prefix" value="/WEB-INF/views/"></property>
+                <property name="suffix" value=".jsp"></property>
+            </bean>
+        </beans>
+
+    - One DispatcherServlet will handle multiple Servlets. and every Servlet can have multiple endpoints.
+
 
