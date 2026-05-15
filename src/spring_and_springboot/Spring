@@ -509,6 +509,48 @@ Spring :-
                  }
             }
 
+4. Spring MVC :- MVC - Model View Controller
+                       Model -> entities/pojo
+                       View -> HTML/JSP
+                       Controller -> Servlets
 
+    - we generally do all servlet configurations inside web.xml. every servlet is generally a class, and we write a class for servlet.
+    - we can write multiple servlets, which includes multiple configurations for multiple classes.
+    - To overcome this problem, 'FrontController' design pattern is introduced.
+    - 'FrontController' is a 'Servlet' which will take our all requests. This Servlet is named as 'Dispatcher Servlet'.
+    - The Dispatcher Servlet acts as FrontController.
+    - Dispatcher Servlet : It is responsible to take all requests from client and send them to corresponding servlets.
+    - In Spring, the requests sent by client will be taken by Dispatcher Servlet. And this will Route/ send all these requests to corresponding servlets.
+    - So, configuring this single Dispatcher Servlet is enough, rather than configuring all servlets.
 
+    - HttpMethods : Get -> client requests for some data.
+                    Post -> client is sending some data.
+                    Put -> client is trying to update some data. client should send entire data.
+                    Delete -> client trying to delete some data.
+                    Patch -> client is trying to update data. partial update.
+
+    - Status codes :
+        - 1xx -> Informational
+        - 2xx -> Success
+            - 200 -> OK (get)
+            - 201 -> created (post)
+            - 202 -> accepted
+            - 204 -> No content (delete)
+        - 3xx -> Redirection
+        - 4xx -> Client side error
+            - 400 -> Bad Request
+            - 401 -> Unauthorized
+            - 403 -> Forbidden (Unauthenticated)
+            - 404 -> Not Found
+            - 405 -> Method Not Allowed (when calling wrong method)
+            - 409 -> Conflict
+        - 5xx -> Server side errors
+            - 500 -> Internal Server error
+            - 502 -> Bad Gateway
+
+    (-Project creation : while creating project, select - org.apache.maven.archetypes
+      1. Update JRE to latest
+      2. Update web module version and Java in Project facets
+      3. Update web.xml
+      4. Update targeted runtimes)
 
