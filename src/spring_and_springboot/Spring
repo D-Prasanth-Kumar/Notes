@@ -581,6 +581,7 @@ Spring :-
       - @Controller - returns views.
       - @Controller + @ResponseBody - returns data.
       - @RestController = @Controller + @ResponseBody
+      - @RequestMapping - is used to declare an API/Endpoint.
 
       Ex:
           @Controller
@@ -609,4 +610,99 @@ Spring :-
 
     - One DispatcherServlet will handle multiple Servlets. and every Servlet can have multiple endpoints.
 
+    ...........................
+    some example -
+
+    @Controller
+    public class UserController {
+
+        @RequestMapping("/hi")
+        @ResponseBody
+        public String user() {
+            return "Hi Prasanth";
+        }
+
+        @RequestMapping("/user")
+        public String userData(Model model) {
+
+            // with help of 'Model' Object it has 'addAttribute', with that we can add attribute in our jsp. something like dynamically adding values in jsp.
+            model.addAttribute("name", "Prasanth");
+            model.addAttribute("company", "GTM");
+
+            return "user"; // user is jsp (view) here we return view.
+        }
+
+        @RequestMapping("/data")
+        public String data() {
+            return "signup";
+        }
+
+        // to take request from jsp - HttpServletRequest, and to send to jsp - Model
+        @PostMapping("/signup")
+        public String signup(HttpServletRequest request, Model model) {
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+
+            model.addAttribute("email", email);
+            model.addAttribute("password", password);
+
+            return "data";    // here data is jsp page.
+        }
+    }
+
+    ---------------------------
+
+    (we need to follow few steps which are same for all like, configure build path - change JRE, Project Facets - change web module version, add server in Targeted Runtimes)
+    -> Spring MVC without XML :-
+        - we need to add Spring Context and Spring Web MVC dependencies in pom.xml
+        - First we create a Config class and mark @Configuration on that class. and also add @ComponentScan(basePackages="com"). and also add @EnableWebMvc
+        - and inside the Config class add method for InternalResourceViewResolver. i.e. -
+          1. Replaces the 'demo-servlet.xml' file
+
+          Config.class -
+
+            1. ---------------------------------------------
+            @Configuration
+            @ComponentScan(basePackages="com")
+            @EnableWebMvc
+            public class Config {
+
+                @Bean
+                public InternalResourceViewResolver internalResourceViewResolver() {
+
+                    InternalResourceViewResolver irvr = new InternalResourceViewResolver();
+                    irvr.setPrefix("/WEB-INF/views/");
+                    irvr.setSuffix(".jsp");
+
+                    return irvr;
+                }
+            -------------------------------------------------
+            }
+
+          - next we need to write the class for 'web.xml'
+          // web.xml is used for DispatcherServlet Initializer
+            so we create DispatcherServletConfig class which extends AbstractAnnotationConfigDispatcherServletInitializer
+
+            DispatcherServletConfig.class -
+            public class DispatcherServletConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+                // AbstractAnnotationConfigDispatcherServletInitializer is an abstract class , so we need to implement the unimplemented methods of it.
+
+                @Override
+                protected Class<?> @Nullable [] getRootConfigClasses() {
+                    return null;
+                }
+
+                @Override
+                protected Class<?> @Nullable [] getServletConfigClasses() {
+                    Class[] configs = { Config.class };
+                    return configs;
+                }
+
+                @Override
+                protected String[] getServletMappings() {
+                    String[] mappings = {"/demo/*"};
+                    return mappings;
+                }
+            }
 
