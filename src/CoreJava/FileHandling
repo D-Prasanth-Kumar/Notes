@@ -1,0 +1,137 @@
+File Handling - Images, PDF's, Excels, etc. are all Files only. to read and write back these Files with Java code.
+    Two ways in which Files are handled :
+        1. Byte Streams
+            a. File Input Streams -> read a file
+            b. File Output Streams -> write into a file
+        2. Character Streams
+            a. File Reader -> read a file
+            b. File Writer -> write into a file
+
+        /* we generally access data in form stream/ write back in form stream. Like this java reads and writes data from files. for this it uses two ways-
+            - Character streams : reads in Character mode (unicode) (reads two bytes as Character size is 2 bytes) ('A') Character streams support all characters
+            - Byte streams : Byte stream reads data in form of bytes. (single byte of data is read from file) ('A' - 65) Byte streams do not support all characters
+        */
+
+
+        ByteStreams Example :
+
+        public class ReadFile {
+
+            public static void main(String[] args) {
+
+                // we can also delete a file by : file2.delete();
+
+            }
+
+            private static void writeImages() {
+                // as like writeFromOneFileToAnother() we can also do same with images too.
+            }
+
+            private static void writeFromOneFileToAnother() {
+
+                //by default data will be overridden.
+                // to append the data , instead of overriding we use : fos = new FileOutputStream(file2, true);
+
+                File file1 = new File("E:\\NewFolder/write.txt");
+                File file2 = new File("E:\\NewFolder/write2.txt");
+                FileInputStream fis = null;
+                FileOutputStream fos = null;
+                try {
+                    fis = new FileInputStream(file1);
+                    fos = new FileOutputStream(file2);
+
+                    int temp;
+
+                    while((temp = fis.read()) != -1) {
+                        fos.write(temp);
+                    }
+                }catch (Exception e) {
+                    System.out.println(e);
+                }finally {
+                    try {
+                        fis.close();
+                        fos.close();
+                    }catch (IOException e) {
+                        System.out.println(e);
+                    }
+                }
+
+            }
+
+            private static void writeTextIntoFile() {
+                File file = new File("E:\\NewFolder/write.txt");
+                String temp = "Hello World";
+
+                FileOutputStream fos = null;
+
+                try {
+                    fos = new FileOutputStream(file);
+
+                    fos.write(temp.getBytes());
+                }catch (FileNotFoundException e) {
+                    System.out.println(e);
+                }catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+
+            private static void readFromFile() {
+                File file = new File("E:\\NewFolder/Testing.txt"); // file path with new file name
+                FileInputStream fis = null;
+                try {
+                    fis = new FileInputStream(file);
+
+                    int temp;
+
+                    while((temp = fis.read()) != -1) {
+                        System.out.print((char) temp);
+                    }
+
+                }catch (FileNotFoundException e) {
+                    System.out.println(e);
+                }catch (IOException e) {
+                    System.out.println(e);
+                }
+            }
+
+            private static void createFile() {
+
+                File file = new File("E:\\NewFolder/Testing.txt"); // file path with new file name
+
+                try {
+                    file.createNewFile();
+                }catch (IOException e) {
+                    System.out.println(e);
+                }
+
+            }
+
+        }
+
+        CharacterStreams Example :
+
+        public class ReadFile {
+
+            public static void main(String[] args) {
+
+            }
+
+            private static void fileReader() {
+                File file = new File("E:\\NewFolder/write2.txt");
+
+                FileReader reader = new FileReader(file);
+                int temp;
+                while((temp = reader.read()) != -1) {
+                    System.out.print((char) temp);
+                }
+            }
+
+            private static void fileWriter() {
+                File file = new File("E:\\NewFolder/write2.txt");
+
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write("Hello World");
+                fileWriter.close();
+            }
+
+        }
