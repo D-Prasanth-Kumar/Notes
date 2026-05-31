@@ -114,3 +114,7 @@ Threads : Thread is a light weight smallest part of a program. (a method will be
 
         - Executors.newFixedThreadPool(10); - This brings 10 Threads from OS and runs those 10 Threads. and after done with task we need to shutdown()
         - Executors.newSingleThreadExecutor(); - brings single thread.
+
+-> Callable :
+        - Interface.
+        - It has a method - call(). This call() method helps in returning values. (we hold the value using 'Future')
