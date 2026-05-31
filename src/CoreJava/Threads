@@ -1,0 +1,48 @@
+Threads : Thread is a light weight smallest part of a program. (a method will be running on one thread)
+                                                               (a java project is a process and it has threads)
+                                                               (threads are created inside stack)
+                                                               (as stack stores temp memory, so thread is temporary)
+                                                               (one process runs with help of multiple threads running in it)
+
+- Ways to create a thread :
+   Write a class ,
+    1. by extending Thread class
+    2. implement interface 'Runnable' - Runnable is the best way to create a Thread.
+
+- There will be a 'Thread Scheduler', which creates Thread in stack and gives to us only when there is memory in stack.
+- There is no guarantee that Threads will always run one after other. - This is called 'MultiThreading'. MultiThreading runs Threads concurrently.
+- Threads usage involves mostly in Banking and Insurance Domains.
+- we can sleep a Thread with - Thread.sleep(1000);
+
+1. public class MyThread1 extends Thread {
+
+        // for thread, it only requires a 'run' method which is inside 'Runnable'. so we need to override it.
+        // we should mandatorily override the run() method
+
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName());
+            System.out.println("Hi...");
+        }
+
+   }
+
+    public class Test {
+
+        // main() itself is also a Thread
+        public static void main(String[] args) {
+
+            System.out.println(Thread.currentThread().getName());  // to know the name of the current Thread. as main() is also a thread.
+            MyThread1 myThread1 = new MyThread1();
+
+            -- not needed this -- myThread1.run();   // but we need to call the start() method which will call run() method, then only the thread will be created.
+            // with run() method, the Thread won't gets registered
+            myThread1.start();
+
+            // start() method is from Thread class, Not from Runnable Interface
+            // So when we create a Thread by implementing with Runnable Interface,
+            //      we need to create an object of Runnable and we need to pass that object while creating the Thread and then we need to call the start() with this Thread object.
+
+        }
+
+    }
