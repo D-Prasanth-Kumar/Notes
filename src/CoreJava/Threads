@@ -57,8 +57,9 @@ Threads : Thread is a light weight smallest part of a program. (a method will be
         t2.join()
     -- here, t1 and t2 gets executed and main gets stopped. main will continue until t1 and t2 completed execution.
 
-    Ex: T1
+    Ex: T1 {
             t2.join()
+        }
         // here, t2 gets executed and T1 gets stopped. T1 will continue until t2 completes execution.
 
 - When two Threads try to update a same variable at same time , value won't gets updated properly. Sometimes they update the same value. This is known as 'Race Condition'
@@ -67,8 +68,17 @@ Threads : Thread is a light weight smallest part of a program. (a method will be
         1. Only one Thread can access a method at one time
         2. Thread acquires a lock
         3. Slow in operations
-        4. Thread safe
+        4. Thread safe - only 1 thread can access at one time.
    -- In Banking all debit operations are Thread safe i.e. Synchronized debit operations. It won't allow to debit at same time.
    -- But for Credit operations, it can happen parallelly, so we don't make them Synchronized.
 
-- In Threads, with join() in some scenarios there occurs 'Deadlock'.
+- In Threads, with join() in some scenarios there occurs 'Deadlock'. Ex: t1 waits for t2 and t2 is waiting for t1.
+
+- LifeCycle of a Thread :
+  5 Steps -
+    1. New
+          create a Thread
+    2. Runnable
+    3. Running
+    4. Blocked/waiting -> Runnable
+    5. Terminated
