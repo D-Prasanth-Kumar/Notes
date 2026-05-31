@@ -74,7 +74,7 @@ Threads : Thread is a light weight smallest part of a program. (a method will be
 
 - In Threads, with join() in some scenarios there occurs 'Deadlock'. Ex: t1 waits for t2 and t2 is waiting for t1.
 
-- LifeCycle of a Thread :
+-> LifeCycle of a Thread :
   5 Steps -
     1. New
           create a Thread
@@ -82,3 +82,35 @@ Threads : Thread is a light weight smallest part of a program. (a method will be
     3. Running
     4. Blocked/waiting -> Runnable
     5. Terminated
+
+-> wait / notify / notifyAll -
+    (sleep, join, wait looks similar but not)
+
+   [ 8 methods in Object class are -
+
+        - equals
+        - hashcode
+        - toString
+        - finalise
+        - wait
+        - notify
+        - notifyAll
+        - clone
+
+   ]
+
+        - wait : hold your current thread until someone notify.
+                   - wait and notify can only work with synchronized blocks
+                   - wait and notify should be called on same object
+
+        - notifyAll : T1 - wait, T2 - wait, T3 - wait. if we want to notify all of them once. we can call notifyAll.
+
+-> ExecutorService: It can create a ThreadPool
+        Threads -> creating - using - terminating
+
+        OS Threads (native threads) -> JVM uses OS Threads (Platform threads) ->
+
+        - ThreadPool - pool of Threads. (It is like, if we have 100 tasks and 10 threads pool, then those 100 tasks are done by 10 threads by reusing these 10 threads)
+
+        - Executors.newFixedThreadPool(10); - This brings 10 Threads from OS and runs those 10 Threads. and after done with task we need to shutdown()
+        - Executors.newSingleThreadExecutor(); - brings single thread.
