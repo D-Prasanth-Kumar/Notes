@@ -1,0 +1,11 @@
+Java 8 :
+
+1. Functional Interfaces
+2. default and static methods
+3. Lambda Expressions
+4. Method references
+5. Stream APIs
+6. Optional
+7. LocalDateTime
+
+--> Functional Interface - Interface having single method. (note- Marker Interface is an Interface which have 0 methods)
