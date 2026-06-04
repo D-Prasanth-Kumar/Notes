@@ -1,0 +1,15 @@
+Spring Boot - Advanced version of Spring
+               Features :
+                1. No XML (Instead of XML, we use Annotations)
+                2. Auto Configuration - Opiniated Configuration (don't need to manually configure) (and we add properties in application.properties to know)
+                3. Embedded Tomcat Server
+                4. Spring Boot Starter - It manages the versions of all the dependencies. we don't need to mention the versions for the other dependencies, as Starter will takes cares of it so there will be no version conflicts.
+                5. Actuator - helps in monitoring application.
+                6. Reduced Boiler plate code
+                7. Faster and Production ready
+                8. More suitable for microservices
+
+-> @SpringBootApplication - This annotation is a combination of 3 annotations :
+                1. @ComponentScan
+                2. @Configuration
+                3. @EnableAutoConfiguration
