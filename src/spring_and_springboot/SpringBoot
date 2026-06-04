@@ -13,3 +13,32 @@ Spring Boot - Advanced version of Spring
                 1. @ComponentScan
                 2. @Configuration
                 3. @EnableAutoConfiguration
+
+-> SpringBoot JDBC :
+    to configure the Datasource , we need to pass the keys in application.properties file. and the keys are -
+                                            - spring.datasource.username=
+                                            - spring.datasource.url=
+                                            - spring.datasource.password=
+                                            - spring.datasource.driverClassName=
+
+    Ex:
+        @RestController
+        public class StoreController {
+
+            @Autowired
+            JdbcTemplate jdbcTemplate;  // this should be autowired
+
+            @GetMapping("/save")
+            public String save() {
+
+                jdbcTemplate.update("Insert into products values(?,?,?)", 6, "Mobile", 1000);  // just an example
+                return "Saved";
+            }
+        }
+
+(DevTools dependency - It restarts the server on every file change. But this is not used in real time, just for practice purpose)
+
+(Lombok - it is a third party external dependency. It helps in giving getters, setters, toString, Constructors automatically by using annotations
+            The annotations are - @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor, @ToString
+                                  @Data = @Getter, @Setter, @ToString
+            But Lombok slows down the speed)
