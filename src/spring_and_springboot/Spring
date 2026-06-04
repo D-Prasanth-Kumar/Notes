@@ -332,6 +332,19 @@ Spring :-
         - no need to transaction
         - no need to close sessions. they will closed automatically.
 
+        -- ( Steps :
+                - add dependency
+                - xml/class config
+                - Local session factory bean
+                - DataSource Bean
+                - Transaction Manager
+                    - begins transaction
+                    - commits transaction
+                    - rollback
+                    - @Transactional (alternative way to do)
+                - enable transactions
+                - HQL ) --
+
     - first we need to add Spring Context, MySQL Connector, Spring ORM and Hibernate-core dependencies inside pom.xml.
 
     (
