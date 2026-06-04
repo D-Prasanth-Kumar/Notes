@@ -42,3 +42,22 @@ Spring Boot - Advanced version of Spring
             The annotations are - @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor, @ToString
                                   @Data = @Getter, @Setter, @ToString
             But Lombok slows down the speed)
+
+-> Spring Data JPA :
+    JPA -> Jakarta Persistence API. They started giving 'specifications'. JPA doesn't have logics. It just gives set of rules and regulations.
+            All ORM Framework providers follow JPA.
+            Hibernate is Implementation. JPA is Specification.
+            JPA is Parent, Hibernate is Child. So Hibernate has more features compared to JPA. (JPA and Spring Data JPA are not same. both are different)
+
+    -> Spring Data JPA :    Spring Data JPA
+                                   |
+                                  JPA
+                                   |
+                                Hibernate
+                                   |
+                                  JDBC
+
+        - JPA -> save, find
+        - Data JPA -> saveAll, findAll
+
+(H2 Database - in memory database. temporary database. (won't use in real time. just for practice))
