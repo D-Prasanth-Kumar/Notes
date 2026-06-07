@@ -46,6 +46,7 @@ Spring Boot - Advanced version of Spring
 -> Spring Data JPA :
     JPA -> Jakarta Persistence API. They started giving 'specifications'. JPA doesn't have logics. It just gives set of rules and regulations.
             All ORM Framework providers follow JPA.
+            JPA uses Hibernate
             Hibernate is Implementation. JPA is Specification.
             JPA is Parent, Hibernate is Child. So Hibernate has more features compared to JPA. (JPA and Spring Data JPA are not same. both are different)
 
@@ -57,7 +58,67 @@ Spring Boot - Advanced version of Spring
                                    |
                                   JDBC
 
+        Process :
+            - add dependency
+            - add properties in application.properties
+            - create a Repository interface, which should extend JPA Repository
+
         - JPA -> save, find
         - Data JPA -> saveAll, findAll
 
 (H2 Database - in memory database. temporary database. (won't use in real time. just for practice))
+
+-(Try CRUD Operations. // save, findById, findAll, delete, etc..)
+
+-> JPQL: Jakarta Persistence Query Language. Same as HQL
+            - every feat of HQL is present in JPQL, but it is not like all JPQL is present in HQL. as JPQL has its own feat too.
+    Ex:
+        @Repository
+        public interface StudentRepository extends JpaRepository<Student, Integer> {
+
+            @Query("Select s From Student s where s.studentId=:id")   // with name like ':id' @Param() is needed
+            public Student getStudentById(@Param("id") int id);
+
+            @Query("select s From Student s where s.marks=?1")   // with '?' there is no need to use @Param()
+            public List<Student> getStudentByMarks(int marks);
+
+            // we can also write 'Native Query' by, (native query means normal sql)
+            // @Query(value = "select * from students where marks=?1", nativeQuery = true)
+
+            // also the @Query is not necessary, as JPA comes with own 'finder' methods
+            //      i.e. if the method name is findByName(), it understands and JPA on its own writes the query.
+            //      some examples, findByNameStartingWith() , findByNameAndMarks() , ...
+        }
+
+-> Pagination : The concept we see 'pages' on websites , etc..
+                - There will be a PagingAndSortingRepository, it is parent of JPARepository.
+                                Repository
+                                    |
+                          PagingAndSortingRepository
+                                    |
+                               JPARepository
+                - here we deal with Page, and Size (Ex: Page = 1, Size = 10  ;  Page = 2, Size = 10...)
+                Ex:
+                   Service class :
+                    public Page<Student> findByPage(int page, int size) {
+                        PageRequest pageRequest = PageRequest.of(page, size);
+                        Page<Student> allStudents = studentRepository.findAll(pageRequest);
+
+                        return allStudents;
+                    }
+
+                   Controller class :
+                    @GetMapping("/byPage")
+                    public Page<Student> findByPage(@RequestParam(name = "page")int page,@RequestParam(name = "size") int size) {
+                        return studentService.findByPage(page, size);
+                    }
+
+                   we can also sort :
+                    public Page<Student> findByPageSorting(int page, int size) {
+                        Sort ascending = Sort.by("marks").ascending();
+
+                        PageRequest pageRequest = PageRequest.of(page, size, ascending);
+                        Page<Student> allStudents = studentRepository.findAll(pageRequest);
+
+                        return allStudents;
+                    }
