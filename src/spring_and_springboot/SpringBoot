@@ -122,3 +122,87 @@ Spring Boot - Advanced version of Spring
 
                         return allStudents;
                     }
+
+-> Spring REST
+    REST API : Representational State Transfer - completely works on HTTP - works on JSON (Javascript Object Notation)
+                    JSON - key , value pair
+    -- (SOAP : Simple Object Access Protocol - works with XML (currently not using much)) --
+    - when we return an object, it gets converted to JSON. there is a library called 'JACKSON', it is a JACKSON jar
+        which has an 'object mapper' class. This object mapper automatically converts java object to JSON, and JSON to java object.
+
+    Order Management :
+    - First Design Database.
+        - Orders
+            orderId
+            List<OrderItem>
+            price
+            discount
+            quantity
+            orderStatus
+        - Product/items
+            productId
+            productName
+            price
+            stockQuantity
+            discount
+            rating
+        - OrderItem
+            orderItemId
+            Product
+                itemPrice
+                discount
+                quantity
+
+    -DTO (Data Transfer Object)
+        Generally our POJO consists of lot of data which is not required every time.
+        So we create DTO classes. These are also POJO classes, but with only required fields. These are copy classes of our main entity classes.
+        Entity ------copy----> DTO
+        Ex:
+            User
+
+            UserLoginRequestDTO
+                userName
+                password
+
+            UserLoginResponseDTO
+                userName
+                firstName
+                lastName
+                email
+                age
+                gender
+
+            we don't use User directly. User is directly linked to the database.
+            we do direct operations with User obj. we should not move this entity over internet/ won't expose over internet.
+            instead we expose DTOs.
+            DTO -> copy it to entity -> save it to db
+            again form a DTO -- send back to --> client
+
+            (also for huge data, the response will gets slowdown)
+
+            An object talking to client, should not interact with the database. An object interacting with the database should not interact with the client.
+
+    (
+        Structure:
+        Item (POJO/model)
+        ItemRepository (or ItemDao) (Interface)
+        ItemService (Interface)
+        ItemServiceImpl (class)
+        ItemController
+        AddItemRequestDTO
+        AddItemResponseDTO
+    )
+
+    - 3 types of inputs :
+        1. @RequestParams (?key=value)
+            http://localhost:8080/items?id=1  (get data with '?')
+        2. @PathVariable
+            http://localhost:8080/items/1   (get data with '/')
+        3. Payload
+            @RequestBody
+            {
+                name:
+                price:
+            }
+            client gives in JSON , but we receive it into java object.
+            This JSON is converted to java object by object mapper.
