@@ -178,7 +178,7 @@ Spring Boot - Advanced version of Spring
             DTO -> copy it to entity -> save it to db
             again form a DTO -- send back to --> client
 
-            (also for huge data, the response will gets slowdown)
+            (also for huge data, the response will gets slowdown if entities are used)
 
             An object talking to client, should not interact with the database. An object interacting with the database should not interact with the client.
 
@@ -193,12 +193,19 @@ Spring Boot - Advanced version of Spring
         AddItemResponseDTO
     )
 
-    - 3 types of inputs :
-        1. @RequestParams (?key=value)
+    - 3 types of inputs can be sent from client to server :
+        1. @RequestParam (?key=value)
             http://localhost:8080/items?id=1  (get data with '?')
+            in RequestParam, it is optional/ not need to mention anything new in @GetMapping(" ")
         2. @PathVariable
             http://localhost:8080/items/1   (get data with '/')
-        3. Payload
+            in PathVariable, we should mention '/{id}' in the - @GetMapping(" ")
+
+        - for @RequestParam and @PathVariable it should be for GET/DELETE
+
+        3. Payload  -- (use it when mapping to a object. Ex: when we do POST..)
+        - for Payload it should be for POST/PUT
+        - GET should not sent as payload
             @RequestBody
             {
                 name:
@@ -206,3 +213,38 @@ Spring Boot - Advanced version of Spring
             }
             client gives in JSON , but we receive it into java object.
             This JSON is converted to java object by object mapper.
+
+        When to use :
+        - 'PathVariable' is used when REQUIRED/ MANDATORY resource i.e.
+            if that value is not exists then the current API doesn't work means we need to use PathVariable.
+        - 'RequestParam' is used when there are Optional fields, filters, we can skip data, sort, pagination. (these are not mandatory)
+        - we can combine RequestParam and PathVariable, but after PathVariable, RequestParam is appended at last.
+
+        -> Updating :
+            PUT/ PATCH
+            - Put : full data
+            - PATCH : partial data
+
+            Update : we have to take two inputs,
+                id : PathVariable
+                updated data : payload
+
+    (REST API CRUD Operations - check Order Management ZIP)
+
+    - Generally for JPQL, whenever we write @Query("..") inside it if we write any query like update, select, ..
+        it treats as select query only. it only accepts DQL. it won't accepts DML inside it.
+        for that, we add @Modifying and @Transactional along with @Query to handle DML operations.
+
+-> ResponseEntity :
+    - There are multiple status codes which says the status.
+    - if we want to configure status codes on our own, returning status codes on our own we use 'ResponseEntity' to return custom status code.
+            like handling status codes on our own.
+
+-> Exceptions in Spring Boot :
+    - instead handling exceptions in each class, we handle exceptions in a 'GlobalExceptionHandler' class
+    - for that we annotate this class as @RestControllerAdvice
+    - for the method which we handling a specific exception we annotate that method as @ExceptionHandler
+
+  -- (Check Order Management project ZIP file) --
+
+
