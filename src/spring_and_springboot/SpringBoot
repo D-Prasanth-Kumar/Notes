@@ -247,4 +247,43 @@ Spring Boot - Advanced version of Spring
 
   -- (Check Order Management project ZIP file) --
 
+-> Thymeleaf :
+    - we know while returning views, for loading data dynamically we use JSP.
+    - HTML is not used , as HTML is static it don't support dynamic data by default. but with some wrapper on it, this can load dynamic data.
+    - Thymeleaf is a template engine which can integrate with HTML and load dynamic data.
+    - to use Thymeleaf, we need to add Thymeleaf dependency
+    - when we work with views, we use Thymeleaf
+    - (in application.properties, we need to add spring.thymeleaf.prefix=classpath:/views/  and spring.thymeleaf.suffix=.html) - this is for configuring Internal Resource View Resolver(IRVR).
+    - we also do without IRVR and not need to configuring anything in application.properties by moving views inside templates folder inside resources folder.
+       Ex:
+            data.html-
+                <!DOCTYPE html >
+                <html xmlns:th="http://thymeleaf.org">
+                <head>
+                <meta charset="UTF-8">
+                <title> </title>
+                </head>
+                <body>
+                <h1>Hii <span th:text="${name}"></span> Welcome! </h1>
+                <h2 th:text="${name}"></h2>
+
+                <form>
+                    -- try with form to send data dynamically --
+                    (we also do with POJO and normal way too)
+                </form>
+
+                <table>
+                    -- also try to read multiple data in table --
+                <table>
+
+                </body>
+                </html>
+
+            Controller-
+
+                @GetMapping("/data")
+                public String data(Model model) {
+                    model.addAttribute("name", "Prasanth");
+                    return data;
+                }
 
