@@ -318,3 +318,46 @@ Spring Boot - Advanced version of Spring
             logger.trace("Request received for add item in Item Controller");
             logger.debug("Received ItemRequestDTO , {}", addItemRequestDTO);  // using placeholder
     - By adding, logging.file.name=app.log , logs can be sent to files ; where 'app' is the file name and '.log' is extension.
+
+-> JMS - Java Mail Sender :
+    - For this we use SMTP
+    (
+        To send a mail, we need
+                sender mail id
+                password - we use App Password for this.
+                to mail id
+                subject, and body
+    )
+    - to use this, we need to add Java Mail Sender dependency.
+    - in application.properties we need to add,
+            spring.mail.host=smtp.gmail.com
+            spring.mail.port=587
+            spring.mail.username=prasanth@gmail.com
+            spring.mail.password=write your app password here
+            spring.mail.properties.mail.smtp.auth=true
+            spring.mail.properties.mail.smtp.starttls.enable=true
+
+    Ex:
+        @RestController
+        public class MainController {
+
+            @Autowired
+            JavaMailSender javaMailSender;
+
+            @GetMapping("/email")
+            public String sendEmail(@RequestParam(name = "toEmail") String toEmail) {
+
+                SimpleMailMessage mail = new SimpleMailMessage();
+
+                // generally we write these in service layer
+                mail.setFrom("prasanth@gmail.com");
+                mail.setTo(toEmail);
+                mail.setSubject("Hello!");
+                mail.setText("Have a Good day.");
+                // we can also set cc and bcc
+
+                JavaMailSender.send(mail);
+
+                return "Mail sent Successfully.";
+            }
+        }
