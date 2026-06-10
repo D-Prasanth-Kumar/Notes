@@ -309,5 +309,12 @@ Spring Boot - Advanced version of Spring
         FATAL
     (let say, if we turn on LEVEL -> INFO, only INFO, WARN, ERROR are logged. TRACE and DEBUG wont gets logged. same way for all...)
     - If we want to change the level of logging, we need to add this line in application.properties,
-                logging.level.org.springframework=DEBUG
+                logging.level.org.springframework=DEBUG / logging.level.root=DEBUG  // instead of root, we can also mention the base package what we need
         - SpringBoot by default on's INFO.
+
+    - To write Logs, we need Logger Object. for that we need LoggerFactory which gives Logger.
+            private static final Logger logger = LoggerFactory.getLogger(ClassName.class);
+        - Now inside methods, we can write logs,
+            logger.trace("Request received for add item in Item Controller");
+            logger.debug("Received ItemRequestDTO , {}", addItemRequestDTO);  // using placeholder
+    - By adding, logging.file.name=app.log , logs can be sent to files ; where 'app' is the file name and '.log' is extension.
