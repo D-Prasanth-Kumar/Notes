@@ -287,3 +287,27 @@ Spring Boot - Advanced version of Spring
                     return data;
                 }
 
+-> Logging :
+    - we write 'logs' to know the flow of real time data.
+    - Logger prints logs into 'files' and can also into 'console' too.
+    - LOGS are used to debug later i.e. to know what happened actually, we check Logs
+    - Two major Java related Logging Frameworks (vendors) :
+        1. 'LOG4j' - oldest
+            - the newer version of LOG4j is 'LOG4j2' - modern
+        2. 'Logback' - new
+    - SpringBoot by default uses Logback
+    - Instead of directly using a Framework / Implementation, we use Specification called - 'Slf4j'
+    - 'Slf4j' - can use underline implementation like,
+                                        Logback, LOG4j, LOG4j2
+
+    - Logging Levels :
+        TRACE - All raw info
+        DEBUG
+        INFO
+        WARN
+        ERROR - exception
+        FATAL
+    (let say, if we turn on LEVEL -> INFO, only INFO, WARN, ERROR are logged. TRACE and DEBUG wont gets logged. same way for all...)
+    - If we want to change the level of logging, we need to add this line in application.properties,
+                logging.level.org.springframework=DEBUG
+        - SpringBoot by default on's INFO.
