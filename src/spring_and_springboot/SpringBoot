@@ -361,3 +361,35 @@ Spring Boot - Advanced version of Spring
                 return "Mail sent Successfully.";
             }
         }
+
+-> Spring Actuator :
+    - Actuator gives production ready metrics.
+    - It gives -
+            - Application's Beans information
+            - can watch all 'mappings' of our application
+            - can watch all 'config properties'
+            - gives health details
+            - metrics
+            - env
+            - info
+            - loggers information
+            - cache information
+    - with tools like Prometheus and Grafana, we can monitor them as graphs, charts, dashboards...
+    - for this, we need to 'spring boot actuator' dependency
+    - to see information, we need to go to '/actuator' i.e. localhost:8080/actuator , which contains /health.
+    - in /actuator, by default /health is enabled. we can't see remaining endpoints. we need to enable the remaining endpoints to view them.
+    - to enable, in application.properties we need to add,
+            management.endpoints.web.exposure.include=beans,health (we need to mention here what we want to check)
+            if we mention '*' it gets enabled to all endpoints.
+    - to see API response time, we need 'micrometer'. for that we need to add micrometer dependency.
+            we need to use specific annotations on API like @Counted(value = "mention any key here"), @Timed(value = "mention any key here") , ..
+            to work these we need to create bean for 'MeterRegistry' class on Application.java
+                @Bean
+                public TimedAspect timedAspect(MeterRegistry meterRegistry) {
+                    return new TimedAspect(meterRegistry);
+                }
+
+                @Bean
+                public CountedAspect countedAspect(MeterRegistry meterRegistry) {
+                    return new CountedAspect(countedRegistry);
+                }
