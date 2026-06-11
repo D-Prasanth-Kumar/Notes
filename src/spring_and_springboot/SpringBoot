@@ -414,7 +414,7 @@ Spring Boot - Advanced version of Spring
    (check Order Management ZIP)
 
 -> Spring Caching :
-    - Caching is an extra layer to store the data temporarily. It works fast.
+    - Caching is an extra layer to store the data temporarily. It works fast as there will be no database call.
         For first request the data is fetched and stored in cache.
         for second request, the data is served from the cache.
             If data is updated , cache too gets updated.
