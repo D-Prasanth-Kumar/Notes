@@ -393,3 +393,22 @@ Spring Boot - Advanced version of Spring
                 public CountedAspect countedAspect(MeterRegistry meterRegistry) {
                     return new CountedAspect(countedRegistry);
                 }
+
+-> SpringBoot AOP (Aspect Oriented Programming) :
+    - AOP is introduced to address 'cross cutting concerns'
+        - we generally write loggers in service logic to see/ know logs.
+            but these logs looks irrelevant to see inside business logic and looks messy. This is know as 'Cross cutting concern'
+            to solve this, AOP is introduced
+        - The loggers which we write in service layer, we will separate them to another class. This class is known as 'Aspect'
+    - Aspect is java class which is separating the actual cross cutting concern from business logic.
+    - some cross cutting concerns are - Loggers, Security, Transaction Management, Exception Handling, Caching
+    Terms :
+        - Aspect : A java class containing cross cutting concerns.
+        - Advice : Actual action to be performed. annotations are - @Before, @After, @AfterReturning, @AfterThrowing, @Around
+        - JoinPoint : Where(which method) aspect needs to be applied ?
+        - PointCut : Expression which decides where advice should run.
+    - for that we need to add Spring Boot AOP dependency.
+        - we need to create a separate java class for Aspect and we generally keep it in separate package say 'aspect'
+        - and we mark the class with @Aspect annotation
+
+   (check Order Management ZIP)
