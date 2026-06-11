@@ -412,3 +412,30 @@ Spring Boot - Advanced version of Spring
         - and we mark the class with @Aspect annotation
 
    (check Order Management ZIP)
+
+-> Spring Caching :
+    - Caching is an extra layer to store the data temporarily. It works fast.
+        For first request the data is fetched and stored in cache.
+        for second request, the data is served from the cache.
+            If data is updated , cache too gets updated.
+            Cache - temporary memory, Cache memory too gets filled,
+            Time is Configurable i.e. we can decide how much time the data to stay. which is know as TTL (Time to Live)
+    - Spring Cache internally uses Concurrent HashMap
+    - Other cache providers are -
+        Caffeine : it is a local cache. This stores the data in application memory. 3rd party implementation
+        Ehcache : 3rd party
+        Redis cache : Distributed cache. It is also a 3rd party provider.
+                        It needs a separate server
+    - To work with it we need to add Spring Cache dependency
+    - Spring Cache is Specification.
+        - caffeine gives implementation;
+            - To use Caffeine cache, we need to add dependency
+        - ehcache gives implementation;
+        - redis gives implementation
+          else if we didn't provide any 3rd party provider, Spring Boot gives default implementation with HashMap
+    - @CachePut(value = "", key = "") - will update the cache
+    - @Cacheable
+    - @CacheEvict(value = "", key = "") - to delete
+    - (Whenever we update, we delete the old cache and we store a new cache. This is called Cache Invalidation.)
+    - When we call Cache, CacheManager gets created in background by SpringBoot which handles keys and values.
+        But if we use 3rd party provider(caffeine, etc.), we have to manage CacheManager
