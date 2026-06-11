@@ -439,3 +439,4 @@ Spring Boot - Advanced version of Spring
     - (Whenever we update, we delete the old cache and we store a new cache. This is called Cache Invalidation.)
     - When we call Cache, CacheManager gets created in background by SpringBoot which handles keys and values.
         But if we use 3rd party provider(caffeine, etc.), we have to manage CacheManager
+        create a config class for CacheConfig which consists of CacheManager method in it.
