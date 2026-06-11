@@ -440,3 +440,36 @@ Spring Boot - Advanced version of Spring
     - When we call Cache, CacheManager gets created in background by SpringBoot which handles keys and values.
         But if we use 3rd party provider(caffeine, etc.), we have to manage CacheManager
         create a config class for CacheConfig which consists of CacheManager method in it.
+
+-> Scheduling :
+    - for Scheduling, we write CRON JOBs. means, a job which gets executes at a particular time. It has 6 parts.
+                    *  *  *  *  *  *
+        * -> Seconds (0 - 59)
+        * -> Minutes (0 - 59)
+        * -> Hours (0 - 23)
+        * -> Date (1 - 31)
+        * -> Month (1 - 12)
+        * -> Day (0 - 7) 0, 7 - both denotes Sunday.
+      Ex:
+         1.   12 AM - 12:00 everyday
+                 0  0  0  *  *  *
+
+         2.   Payment reminder - 1st of every month 7:30 PM
+                    0  30  19  1  *  *
+
+         3.    For every 15 minutes
+               0  */15  *  *  *  *
+
+         4.    Every 15 mins from 9 AM - 5 PM
+                    0  */15  9-17  *  *  *
+
+         @Component
+         public class EmailRemainder {
+
+            @Scheduled(cron = "10 * * * * *")  // every minute at second 10    ;    every 10 seconds - */10 * * * * *
+            public void sendEmail() {
+                System.out.println("Email sent...");
+            }
+
+         }
+         - Also we have Enable Scheduling by marking Application.java class with @EnableScheduling annotation.
