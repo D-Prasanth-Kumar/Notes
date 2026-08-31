@@ -473,3 +473,21 @@ Spring Boot - Advanced version of Spring
 
          }
          - Also we have Enable Scheduling by marking Application.java class with @EnableScheduling annotation.
+
+-> Spring Security :
+    - Authentication : Who are you
+    - Authorization : WHat you can access
+    - when a request is made from client side, we know first it reaches to 'Dispatcher Servlet' which is Front Controller
+            but before Dispatcher Servlet, it passes from 'Filters' and then reaches to Dispatcher Servlet.
+            we can also create our own Filters - Custom Filters.
+            From Client to Filter to -> AuthenticationManager
+                                sends to -> AuthenticationProvider - communicates with -> UserDetailsService (-> loadUserByUserName(method) we get data from this method.) -> UserDetails -> User
+                                                some AuthenticationProviders are :
+                                                    DAOAuthenticationProvider
+                                                        - works with Basic username and password
+                                                    JWTAuthenticationProvider
+                                                        - works with JWT -> JSON Web Token
+                                                    OAUTHAuthenticationProvider
+                                                        - continue with Google/Github, etc...
+                                                    LdapAuthenticationProvider
+    - To use Spring Security, we need to add Spring Security dependency, which then secures all endpoints.
