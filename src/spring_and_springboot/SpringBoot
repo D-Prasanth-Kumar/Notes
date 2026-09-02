@@ -491,3 +491,30 @@ Spring Boot - Advanced version of Spring
                                                         - continue with Google/Github, etc...
                                                     LdapAuthenticationProvider
     - To use Spring Security, we need to add Spring Security dependency, which then secures all endpoints.
+        (By default spring security gives a password and username is 'user')
+
+    - (we generally use Builder pattern.)
+
+    ( configuring our own security layer on our own endpoints...
+
+        -- if we give our own password, then spring won't gives the password.
+
+        @Bean
+        public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) {
+
+            httpSecurity
+                .authorizedHttpRequests(
+                        auth ->
+                        auth.requestMatchers("/hi", "/bye").authenticated()
+                        .requestMatchers("/open").permitAll()
+                        .requestMatchers("/noAccess").denyAll()
+                        )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+
+            return httpSecurity.build();
+        }
+
+        - 'BCryptPasswordEncoder' is one of the most famous password encrypter.
+    )
+
