@@ -518,3 +518,42 @@ Spring Boot - Advanced version of Spring
         - 'BCryptPasswordEncoder' is one of the most famous password encrypter.
     )
 
+    - evolution of security : User -> InMemoryUserDetailsManager -> DB -> JWT
+
+    - SpringSecurityInDB (zip file)
+
+    - CSRF : Cross Site Resource Forgery
+               - CSRF Token
+
+    -> JWT : JSON Web Token
+           - Structure of JWT
+                3 Parts
+                    - Header
+                    - Payload
+                    - Signature
+                JWT : Header.Payload.Signature
+
+                - Header -> metadata
+                    {
+                        algorithm : HS256,
+                        type : JWT
+                    }
+                - Payload
+                    {
+                        username :
+                        role :
+                        issued at :
+                        expiry time :
+                    }
+                - Signature
+                    JWT Secret
+
+                    payload + secret => signature
+
+                    header.payload.signature
+
+                -- header and payload are encoded and encrypted. means we can decode header and payload.
+
+           - there are two authentications. Stateful and Stateless. JWT is Stateless.
+           - In JWT, One request has no connection with another request.
+           - Server doesn't know JWT.
