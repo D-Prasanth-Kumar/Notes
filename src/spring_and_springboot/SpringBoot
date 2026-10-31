@@ -525,6 +525,9 @@ Spring Boot - Advanced version of Spring
     - CSRF : Cross Site Resource Forgery
                - CSRF Token
 
+    - CORS : Cross Origin Resource Sharing
+                all modern browsers follow CORS policy. browsers don't allow to do request from one origin to another origin.
+
     -> JWT : JSON Web Token
            - Structure of JWT
                 3 Parts
@@ -557,3 +560,31 @@ Spring Boot - Advanced version of Spring
            - there are two authentications. Stateful and Stateless. JWT is Stateless.
            - In JWT, One request has no connection with another request.
            - Server doesn't know JWT.
+           - csrf is not required for JWT.
+
+    - SpringSecurityJWT
+            - along with some spring and spring security dependencies, we need some jwt related dependencies.
+                        - jjwt api dependency
+                        - jjwt impl dependency
+                        - jjwt jackson dependency
+
+    (
+        Types -
+                Basic Auth
+                Filter -> UserNamePassowrdAuthenticatorFilter
+                JWT -> CustomFilter
+    )
+
+    - JWT
+    - JWTFilter extends Filter
+    - Every api call should have JWT i.e. every request requires JWT. and every request need to validated everytime.
+            - OncePerRequestFilter we need to implement for this.
+    - Headers - extra information not related to your data. like - content type: application/json, Authorization: token; tokens are generally said as Bearer token.
+    - when we try to validate a user, that user information is stored in 'SecurityContext' which was handled by SpringBoot.
+            SecurityContext is like a Storage, and in it we store authenticated users.
+    - JWT Token, Refresh Token.
+
+
+    - Handling Roles :
+            SpringBoot expects roles in ROLE_ADMIN, ROLE_SUPERADMIN...
+            we can handle by mentioning with .hasRole() methods ... and also with annotation - @PreAuthorize("hasRole('')") and this annotation should be enabled with @EnableMethodSecurity.
