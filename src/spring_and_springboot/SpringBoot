@@ -588,3 +588,10 @@ Spring Boot - Advanced version of Spring
     - Handling Roles :
             SpringBoot expects roles in ROLE_ADMIN, ROLE_SUPERADMIN...
             we can handle by mentioning with .hasRole() methods ... and also with annotation - @PreAuthorize("hasRole('')") and this annotation should be enabled with @EnableMethodSecurity.
+
+-> Spring AI:
+        - it is a module, which helps to integrate AI to java project.
+        - to work with Spring AI, it needs an API KEY like open ai api key, claude, gemini, etc.
+        - we need to add the respective dependency of API KEY in the Spring project which we are working. and need to add the api key in the properties file.
+                and need to autowire and use ChatClient for prompts and ImageModel if want to generate images.
+        - Spring AI will be Specification and the AI Model vendors which will be used will be Implementation.
