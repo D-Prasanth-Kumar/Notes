@@ -604,3 +604,24 @@ Spring Boot - Advanced version of Spring
         - we need to add the respective dependency of API KEY in the Spring project which we are working. and need to add the api key in the properties file.
                 and need to autowire and use ChatClient for prompts and ImageModel if want to generate images.
         - Spring AI will be Specification and the AI Model vendors which will be used will be Implementation.
+
+-> Microservices - It is not a Programming Language, not a Technology, not a Framework.
+                        It is an Architecture.
+   (
+        AutoScaling: when server gets huge traffic then there will be a possibility of server going down.
+                        let's say if 8080 is hit with huge load, then, the server deploys automatically on new port 8081. and these handle the load.
+   )
+   - with Microservices architecture, we handle multiple services as separate projects and can let communicate and share information between these services.
+   Advantages:
+        1. services are Independent.
+        2. Scalability - we can only scale the services which need to be scaled if they hit with huge traffic.
+        3. Faster Development.
+        4. Loosely Coupled.
+        5. Ease in Understanding code.
+        6. Language Feasibility. we can communicate between Java - Java; Java - Python; GoLang - Python - Node - Java projects.
+   DisAdvantages:
+        1. Debugging is hard
+        2. Testing/ Logging is hard
+        3. Cost (only need to use when there is requirement - like huge load)
+        4. Infra Management
+        5. Data Inconsistency (need to handle data properly)
