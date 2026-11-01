@@ -589,6 +589,15 @@ Spring Boot - Advanced version of Spring
             SpringBoot expects roles in ROLE_ADMIN, ROLE_SUPERADMIN...
             we can handle by mentioning with .hasRole() methods ... and also with annotation - @PreAuthorize("hasRole('')") and this annotation should be enabled with @EnableMethodSecurity.
 
+- (a project can have both application.properties and application.yml, but if both are there then application.properties will have higher precedence)
+
+- Swagger - used to test APIs (like postman) but in easier way. for that we need to add SpringDoc OpenAPI dependency.
+                and after that we have to go to /swagger-ui.html page.
+
+- Profiling - we generally have different environments for an application. (like local environment to-> dev environment to-> QA environment to-> UAT for clients to -> PROD)
+            for these different environments - we can maintain different profiles
+            - and for every environment, there will be separate application.yml/properties files like - application-dev.yml,..
+
 -> Spring AI:
         - it is a module, which helps to integrate AI to java project.
         - to work with Spring AI, it needs an API KEY like open ai api key, claude, gemini, etc.
