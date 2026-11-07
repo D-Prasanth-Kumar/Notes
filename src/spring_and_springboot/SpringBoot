@@ -625,3 +625,73 @@ Spring Boot - Advanced version of Spring
         3. Cost (only need to use when there is requirement - like huge load)
         4. Infra Management
         5. Data Inconsistency (need to handle data properly)
+
+   (- Flyway and Liqui Base are some of the famous Database migration related dependencies)
+
+   - Microservices Entity Design - Designing Database Schemas/ Entity classes (Table/ class names and what to be the column_name/ fields present in them..) - UserManagement Project
+
+   - Builder Pattern - when we want to copy dto object to entity object we follow Builder Design Pattern. To not to clumsy the service layer we use this.
+                            we generally copy dto to entity manually which makes the service layer clumsy. so we maintain a new separate Builder layer.
+
+   - In Microservices, as there will be multiple services will be developed as individual projects we can let these services communicate with each other.
+            This is known as Inter Service Communication.
+     - There are multiple ways for this communication.
+        - The first and easiest way is 'RestTemplate' - class (restTemplate - url, return Type, payload)
+                get ->
+                      getForObject()
+                      getForEntity()
+                post
+                put ->
+                      exchange()
+                delete ->
+                      delete()
+
+        - FiegnClient - class
+        (if we working with 'reactive' spring boot approach, we use 'WebFlux'. and 'WebClient' is the class used for communication here..)
+
+   - Service Discovery
+            when there are more services running in our project and when we want to monitor services whether they are running or not, we use 'Service Discovery'.
+            One of the famous Service Discovery is 'Eureka'
+                Eureka has a 'server' and 'client'. Eureka itself is a separate spring boot application which runs on separate server. and our services are registered as 'clients'.
+                Eureka server has all our services tracking through a dashboard. 8761 is the default port.
+                we need to create a project with eureka server dependency. and in the application file we need to add @EnableEurekaServer annotation
+                The two main properties in Eureka are -
+                    register-with-eureka
+                    fetch-registry
+
+                (
+                 Eureka Server
+                            Dashboard
+                            port : 8761
+                 Eureka Clients
+                            eureka url ->
+                            register-with-eureka: true
+                            fetch-registry: true
+                )
+
+   (Auto Scaling - same project running in multiple ports when there is heavy traffic on the service.)
+
+   Load Balancing -
+            Client Side - Simple / Cheap / Easy - Code Level ; we do load balancing with Eureka. (and we do with Application Name which is registered in Eureka) ; (ew use annotation like @LoadBalanced)
+                    Round Robin Technique happens when multiple servers (ports) are getting used for a service, then for every request the server(port) gets changed/ used accordingly to balance the load.
+            Server Side - Infra side - AWS, Azure
+
+   Feign Client: we use Feign Client for inter-service communication. (no need of port url, automatic load balancing)
+             - while working with Feign Client, first we need to add 'OpenFeign' dependency. and add @EnableFeignClients annotation on the app file of the project which we want to communicate with.
+             - after that, write a interface and annotate it with @FeignClient(name = "") // in the name, give the name of the project which it wants to communicate.
+
+   Config Server : One of the Spring Feature. an External Server / Centralized Server.
+                     We will externalise all our .properties/ .yml files. and maintain it mostly in GitHub. we can also add profiles.(-dev, -env, etc)
+                     We create a Config Server project and this will talk to GitHub always and get values.
+                     We connect our Project with Config Server.
+                     Instead of ReDeploying/ ReBuilding our Project, it get values directly from GitHub. (Because when we change/ update anything in the project, the entire project gets ReBuild/ ReDeployed.)
+                     - we create a package which consists of properties files and they should be named with ProjectName.properties. and we push this folder to GitHub.
+                     - Inside this folder, we create a ConfigServer project with dependency Config Server (and to the projects, we put Config Client dependency)
+                     - and in the app file of Config Server project, annotate it with @EnableConfigServer
+                     - and we go to application.properties file of the Config Server project and first add the port to 8888 as it is considered as default port for config server.
+                            and spring.cloud.config.server.git.uri=here we need to add the folder uri which we pushed to github above.
+                            and spring.cloud.config.server.git.clone-on-start=true
+                     Start the Config Server. and this project will able to fetch all the details from GitHub.
+                     - and in the other projects which we are handling the properties files, inside those projects application.properties file, spring.config.import=configserver:http://localhost:8888
+                                    and main thing to add - management.endpoints.web.exposure.include=* and after any change we need to hit /actuator/refresh endpoint
+                                    and another main thing is to annotate controller with @RefreshScope because spring uses singleton design pattern, there will be already a bean stored so that need to be destroyed and created new one for that we need to use this annotation.
