@@ -742,3 +742,43 @@ Spring Boot - Advanced version of Spring
                 resilience4j.circuitbreaker.instances.nameCB.minimum-number-of-calls=3
 
         - and also to which endpoints Circuit Breaker needs to be used, we need to annotate that method with @CircuitBreaker(name = "nameCB", fallbackMethod = "userNotResponding")  "userNotResponding" - this is method name not message. we need to write that fallback method.
+
+   - Kafka:
+            There are two ways of communication - Synchronous and Asynchronous.
+            we know that, Inter service communication: Rest Template, Feign Client. These are Synchronous Communication.
+            Synchronous Communication: When Service A sends a request to Service B, Until Service B sending response to Service A, Service A will be blocked.
+            Asynchronous Communication: here it will not wait for the response from the server.
+            - Kafka is used in Asynchronous mode for Communication. (RabbitMQ is also for Asynchronous Communication)
+                    - It needs to be installed in system. It runs on its own port. It works independently in our system.
+                    - Every Kafka Server is called as 'Broker'.
+                        Every 'Broker' has 'Topics'. Every 'Topics' a 'Partition'. Every 'Partition' has a 'Offset'. Every Kafka 'Broker' has some 'Producers' , 'Consumers'. Kafka has 'Zookeeper'.
+                        Broker : It is a kind of Server. where kafka related all things happen here. kafka can have multiple Brokers. means multiple instances. default port is 9092.
+                        Topic : Topic is like a shelf, which contains multiple messages in it.
+                (In Kafka, when a message is Published(in kafka published means Sent) from Service A, if it want to send to Service B, it first Published/sent to Kafka Broker's Topic i.e a Topic in Kafka Broker - This is called 'Fire and Forget')
+                        Producer : which service sends a message are Producers.
+                        Consumer : which service reads it are Consumers.
+                                    (
+                                        Library = Broker
+                                        Shelf = Topic
+                                        Shelf has Partitions which ordered as queue. Consumers can read parallelly.
+                                            means, if in a shelf, if there are 3 partitions, all three partition's first message is read at a time..
+                                        Books = messages
+                                    )
+                        Offsets : It is a number given to a message. a token number. it is a continuous sequence. it starts from 0. Kafka registers/notes these numbers.
+                                        Every partition has its own Offset.
+                                  it looks something like,
+                                        Partition 1 -> offset 0,1 (// here 1 will be the last read message)
+                                        Partition 2 -> offset 0
+                                        Partition 3 -> offset 1,2,3
+                                        Partition 1 -> offset 2 (// as the last offset was 1, now it starts(consumes) from 2)
+                                            Parallel Processing.
+                        Consumer Group : multiple Consumers reading one Topic.
+                    - There will be huge META DATA, like how many brokers, how many producers, how many consumers, how many messages, etc..
+                            This META DATA is maintained by 'ZooKeeper'. Zookeeper server maintain the META DATA of Kafka.
+                            Kafka 3 has Zookeeper, but in kafka 4, Zookeeper is removed.
+                    - Inplace of Zookeeper, 'KRaft' concept was introduced. (KRaft - Kafka Raft Metadata Mode) It is an alternative for Zookeeper.
+                        (Raft means, choosing a leader. Raft = consensus algorithm)
+                        (There will be a Retention period of 7 days)
+
+            - we can handle Kafka in Terminal with commands.
+                    and we can also handle by creating a separate project and adding Kafka dependency in it. There will be two projects one for Producer and another for Consumer.
