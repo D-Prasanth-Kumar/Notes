@@ -782,3 +782,10 @@ Spring Boot - Advanced version of Spring
 
             - we can handle Kafka in Terminal with commands.
                     and we can also handle by creating a separate project and adding Kafka dependency in it. There will be two projects one for Producer and another for Consumer.
+
+- SOLID Design Pattern/ Principles :
+        S = Single Class Single Responsibility
+        O = Open for Extension, Closed for Modification
+        L = Liskov Substitution Principle
+        I = Interface Segregation Principle
+        D = Dependency Inversion
