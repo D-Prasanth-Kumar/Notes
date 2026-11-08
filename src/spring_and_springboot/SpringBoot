@@ -695,3 +695,50 @@ Spring Boot - Advanced version of Spring
                      - and in the other projects which we are handling the properties files, inside those projects application.properties file, spring.config.import=configserver:http://localhost:8888
                                     and main thing to add - management.endpoints.web.exposure.include=* and after any change we need to hit /actuator/refresh endpoint
                                     and another main thing is to annotate controller with @RefreshScope because spring uses singleton design pattern, there will be already a bean stored so that need to be destroyed and created new one for that we need to use this annotation.
+
+   (The concept of Microservices is, Single Frontend communicating with multiple Backends.. means it has to call different urls (localhost/different port numbers) )
+
+   - API Gateway: Generally if we want to give urls of different services in microservices there will be many urls as each service is a project running on a different port, there will be separate url for each.
+                        with API Gateway, we create a separate project and this project's url helps in knowing all the services urls making it easy to know only one url from which we can get all urls of the services of the project.
+                  - first we create a project for API Gateway by adding Spring CLoud Gateway dependency. (Spring Cloud API Gateway is Reactive.) (Reactive Projects can be Non-Reactive But Non-Reactive Projects cannot be Reactive)
+                  - (when using spring cloud gateway, manually do not add spring web dependency)
+                  - and in the application.properties -
+                                    spring.application.name=
+                                    server.port=
+
+                                    eureka.client.register-with-eureka=true
+                                    eureka.client.fetch-registry=true
+                                    eureka.client.service-url.defaultZone=
+                                    eureka.instance.instance-id=
+
+                                    // it will be in a array indexing fashion
+                                    spring.cloud.gateway.server.webflux.routes[0].id=Project1Name
+                                    spring.cloud.gateway.server.webflux.routes[0].uri=lb://Project1Name
+                                    spring.cloud.gateway.server.webflux.routes[0].predicates[0]=Path=/users/**
+
+                                    spring.cloud.gateway.server.webflux.routes[1].id=Project2Name
+                                    spring.cloud.gateway.server.webflux.routes[1].uri=lb://Project2Name
+                                    spring.cloud.gateway.server.webflux.routes[1].predicates[0]=Path=/products/**
+                                    spring.cloud.gateway.server.webflux.routes[1].predicates[1]=Path=/orders/**  (if there is another endpoint)
+                  (Netty is default embedded server for reactive applications)
+
+   - Circuit Breaker:
+            (In General, if a Circuit is Closed means Connected; and Circuit is Open means DisConnected.)
+            - Resilience 4j is used for Circuit Breaker.
+            - Circuit Breaker has 3 states. Server can be in-
+                CLOSED -> when one service can able to call another service without any errors / when one service calling other service and the other service is Up and able to respond and services can able to send requests and respond to each other.
+                OPEN -> If 50% requests fail. then Circuit will be Open. Then, Requests will not go through. (and we can show some fallback error at this time...)
+                            and we can configure, when again to Close the Circuit. lets say, if need to Closed after 10mins, then first it comes HALF_OPEN state.
+                HALF_OPEN -> Now here, calls will happen. if requests are successful then Circuit will be CLOSED.
+                                If Calls are failed here, again it goes to OPEN state.
+        - First we need add Resilience4j dependency in the project.
+        - and in the application.properties file,
+                resilience4j.circuitbreaker.instances.(// here some circuit breaker name which can be anything)nameCB.register-health-indicator=true
+                resilience4j.circuitbreaker.instances.nameCB.sliding-window-size=5 (// means takes 5 requests)
+                resilience4j.circuitbreaker.instances.nameCB.failure-rate-threshold=50 (//if 50% fails, circuit needs to be OPEN)
+                resilience4j.circuitbreaker.instances.nameCB.wait-duration-in-open-state=10 (//how much time needs to wait in OPEN state - 10secs and goes to HALF_OPEN state)
+                resilience4j.circuitbreaker.instances.nameCB.permitted-number-of-calls-in-half-open-state=2 (// how many calls needs to be made and need to verify whether circuit needs to be OPEN or HALF_OPEN )
+                resilience4j.circuitbreaker.instances.nameCB.automatic-transition-from-open-to-half-open-enabled=true
+                resilience4j.circuitbreaker.instances.nameCB.minimum-number-of-calls=3
+
+        - and also to which endpoints Circuit Breaker needs to be used, we need to annotate that method with @CircuitBreaker(name = "nameCB", fallbackMethod = "userNotResponding")  "userNotResponding" - this is method name not message. we need to write that fallback method.
